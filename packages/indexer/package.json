@@ -10,7 +10,7 @@
     "lint": "tsc --noEmit"
   },
   "dependencies": {
-    "ponder": "^0.7.0",
+    "ponder": "^0.15.0",
     "viem": "^2.50.4",
     "hono": "^4.6.0"
   },
