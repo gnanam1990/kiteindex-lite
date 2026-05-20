@@ -1,0 +1,12 @@
+{
+  "name": "kiteindex-lite",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Free GraphQL API + playground for Kite Mainnet data",
+  "scripts": {
+    "dev:web": "pnpm --filter @kiteindex/web dev",
+    "dev:indexer": "pnpm --filter @kiteindex/indexer dev",
+    "build:web": "pnpm --filter @kiteindex/web build",
+    "lint": "pnpm --recursive lint"
+  }
+}
