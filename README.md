@@ -11,6 +11,16 @@ A `pnpm` monorepo with two packages:
 
 The playground works standalone with **mock mode** until you deploy the indexer.
 
+## Live deployment
+
+- Web playground: <https://kiteindex-lite.vercel.app>
+- Host: Vercel (`kiteindex-lite`)
+- Deployed package: `packages/web`
+- Build: `pnpm build`
+- Output: `dist`
+
+The hosted playground is live. The indexer remains scaffolded and needs Ponder config/type cleanup plus a Postgres-backed deployment before it can serve production GraphQL data.
+
 ## v0.1 scope
 
 - **Playground UI** with GraphQL editor (CodeMirror), preset queries, table/JSON result viewer, curl/JS/TS snippet generator
@@ -52,7 +62,7 @@ The indexer needs a server with Postgres and HTTP egress. Easiest:
 - **Railway** — auto-provisions Postgres, deploys from GitHub. Set `PONDER_RPC_URL_2366` env var.
 - **Hetzner CPX21** — `docker compose` with `postgres:16` + the indexer container behind Caddy.
 
-The playground is static Vite output — deploy to Vercel/Netlify with `VITE_GRAPHQL_ENDPOINT` pointing at the indexer's public URL.
+The playground is static Vite output and is currently hosted on Vercel. Set `VITE_GRAPHQL_ENDPOINT` when a public indexer URL exists.
 
 ## Honest disclaimers
 
