@@ -6,16 +6,16 @@ const START_BLOCK = process.env.PONDER_START_BLOCK
   : "latest";
 
 export default createConfig({
-  networks: {
+  chains: {
     kite: {
-      chainId: 2366,
-      transport: http(process.env.PONDER_RPC_URL_2366 ?? "https://rpc.gokite.ai"),
+      id: 2366,
+      rpc: http(process.env.PONDER_RPC_URL_2366 ?? "https://rpc.gokite.ai"),
       pollingInterval: 2_000,
     },
   },
   blocks: {
     KiteBlocks: {
-      network: "kite",
+      chain: "kite",
       interval: 1,
       startBlock: START_BLOCK as number | "latest",
     },

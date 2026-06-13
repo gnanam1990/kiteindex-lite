@@ -11,5 +11,5 @@
     "noEmit": true,
     "resolveJsonModule": true
   },
-  "include": ["src", "ponder.config.ts", "ponder.schema.ts"]
+  "include": ["src", "ponder.config.ts", "ponder.schema.ts", "ponder-env.d.ts"]
 }

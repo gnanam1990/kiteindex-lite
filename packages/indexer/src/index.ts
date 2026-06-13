@@ -2,8 +2,14 @@ import { ponder } from "ponder:registry";
 import { block, transaction, addressStats } from "ponder:schema";
 
 ponder.on("KiteBlocks:block", async ({ event, context }) => {
-  const { db } = context;
-  const blk = event.block;
+  const { db, client } = context;
+
+  // The `:block` event only carries the block header — it does not include the
+  // transaction list. Fetch the full block (with transactions) explicitly.
+  const blk = await client.getBlock({
+    blockNumber: event.block.number,
+    includeTransactions: true,
+  });
 
   await db.insert(block).values({
     number: blk.number,
@@ -28,7 +34,10 @@ ponder.on("KiteBlocks:block", async ({ event, context }) => {
     });
 
     await upsertAddressStats(db, tx.from, blk.timestamp);
-    if (tx.to) await upsertAddressStats(db, tx.to, blk.timestamp);
+    // Avoid double-counting a self-transaction (from === to) for the address.
+    if (tx.to && tx.to.toLowerCase() !== tx.from.toLowerCase()) {
+      await upsertAddressStats(db, tx.to, blk.timestamp);
+    }
   }
 });
 
