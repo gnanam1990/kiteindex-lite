@@ -11,5 +11,5 @@
     "noEmit": true,
     "resolveJsonModule": true
   },
-  "include": ["src", "ponder.config.ts", "ponder.schema.ts"]
+  "include": ["ponder-env.d.ts", "kite-transport.ts", "src", "ponder.config.ts", "ponder.schema.ts"]
 }

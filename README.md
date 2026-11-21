@@ -6,7 +6,7 @@ A `pnpm` monorepo with two packages:
 
 | Package                       | What it is                                                        | Status                  |
 | ----------------------------- | ----------------------------------------------------------------- | ----------------------- |
-| `packages/indexer`            | [Ponder](https://ponder.sh) indexer → Postgres → GraphQL endpoint | **Scaffolded** — needs deploy |
+| `packages/indexer`            | [Ponder](https://ponder.sh) indexer → Postgres → GraphQL endpoint | **Runs locally** — needs hosting |
 | `packages/web`                | Vite + React playground (CodeMirror editor, preset queries)       | **Ships v0.1**          |
 
 The playground works standalone with **mock mode** until you deploy the indexer.
@@ -19,7 +19,7 @@ The playground works standalone with **mock mode** until you deploy the indexer.
 - Build: `pnpm build`
 - Output: `dist`
 
-The hosted playground is live. The indexer remains scaffolded and needs Ponder config/type cleanup plus a Postgres-backed deployment before it can serve production GraphQL data.
+The hosted playground is live but still in mock mode. The indexer now runs and serves live Kite Mainnet data locally (Ponder 0.15); it needs a Postgres-backed host, then set `VITE_GRAPHQL_ENDPOINT` on Vercel to its `/graphql` URL and redeploy.
 
 ## v0.1 scope
 
@@ -45,8 +45,14 @@ cd packages/indexer
 cp .env.example .env
 # edit .env: PONDER_RPC_URL_2366 + DATABASE_URL
 pnpm install
-pnpm dev   # Ponder boots, auto-exposes GraphQL at http://localhost:42069/graphql
+pnpm dev   # Ponder boots, GraphQL at http://localhost:42069/graphql (src/api/index.ts, CORS open)
 ```
+
+Notes:
+
+- The public Kite RPC (`rpc.gokite.ai`) disables `eth_getLogs`, which Ponder needs for live sync. `kite-transport.ts` answers those calls from `eth_getBlockReceipts`, so the public RPC works as-is.
+- `ponder dev` exits when stdin closes; under a process manager use `ponder start` instead.
+- On Windows, very long project paths break module resolution under pnpm (`ERR_REQUIRE_CYCLE_MODULE` from drizzle-orm). Clone to a short path.
 
 Then in another terminal:
 
